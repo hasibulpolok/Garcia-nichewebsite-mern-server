@@ -27,6 +27,30 @@ async function run() {
         const database = client.db('garcia');
         const garciacollection = database.collection('productlist');
         const userbooking = database.collection('userbooking');
+        const userreviews = database.collection('userreviews');
+
+
+
+
+
+
+        // Get api Reviews
+        app.get('/reviews', async (req, res) => {
+            const cursor = userreviews.find({});
+            const reviews = await cursor.toArray();
+            res.send(reviews);
+        });
+
+
+         // POST API reviews
+         app.post('/reviews', async (req, res) => {
+            const reviews = req.body;
+            const result = await userreviews.insertOne(reviews);
+            res.json(result);
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
+        });
+
+
 
 
 
