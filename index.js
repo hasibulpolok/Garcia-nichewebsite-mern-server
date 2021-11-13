@@ -26,9 +26,27 @@ async function run() {
 
         const database = client.db('garcia');
         const garciacollection = database.collection('productlist');
+        const userbooking = database.collection('userbooking');
 
 
-        // Get api place
+
+        // Get api Book
+        app.get('/book', async (req, res) => {
+            const cursor = userbooking.find({});
+            const booking = await cursor.toArray();
+            res.send(booking);
+        });
+
+        // POST API Booking
+        app.post('/book', async (req, res) => {
+            const bookdetails = req.body;
+            const result = await userbooking.insertOne(bookdetails);
+            res.json(result);
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
+        });
+
+
+        // Get api Products
         app.get('/products', async (req, res) => {
             const cursor = garciacollection.find({});
             const products = await cursor.toArray();
@@ -36,7 +54,7 @@ async function run() {
         })
 
 
-        // POST API place
+        // POST API Products
         app.post('/products', async (req, res) => {
             const newproduct = req.body;
             const result = await garciacollection.insertOne(newproduct);
@@ -44,7 +62,7 @@ async function run() {
         })
 
 
-    
+
 
 
 
