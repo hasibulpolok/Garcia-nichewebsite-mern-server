@@ -51,7 +51,18 @@ async function run() {
             const cursor = garciacollection.find({});
             const products = await cursor.toArray();
             res.send(products);
+        });
+
+
+        // Delete Api book
+        app.delete('/book/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            console.log('deleting booking');
+            const result = await userbooking.deleteOne(query)
+            res.json(result);
         })
+
 
 
         // POST API Products
