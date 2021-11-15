@@ -104,17 +104,17 @@ async function run() {
             if (isAdmin?.role === 'admin') {
                 userIsAdmin = true;
             }
-            res.send({ admin: userIsAdmin });
+            res.json({ admin: userIsAdmin });
         });
 
-        // make admin 
-        app.put('user/admin', async (req, res) => {
-            const user = req.body;
-            const filter = { email: user.email }
-            const updateUser = { $set: { role: 'admin' } };
-            const data = await usersCollection.updateOne(filter, updateUser);
-            res.json(data);
-        })
+        //  make admin api
+    app.put("/user/admin", async (req, res) => {
+        const user = req.body;
+        const filter = { email: user.email };
+        const updateDoc = { $set: { role: "admin" } };
+        const result = await usersCollection.updateOne(filter, updateDoc);
+        res.json(result);
+      });
 
         // Get api Products
         app.get('/products', async (req, res) => {
