@@ -42,8 +42,8 @@ async function run() {
         });
 
 
-         // POST API reviews
-         app.post('/reviews', async (req, res) => {
+        // POST API reviews
+        app.post('/reviews', async (req, res) => {
             const reviews = req.body;
             const result = await userreviews.insertOne(reviews);
             res.json(result);
@@ -58,7 +58,15 @@ async function run() {
         app.get('/book', async (req, res) => {
             const cursor = userbooking.find({});
             const booking = await cursor.toArray();
-            res.send(booking);
+            res.json(booking);
+        });
+
+        // get specifiq user order 
+        app.get('/book/:email', async (req, res) => {
+            const email = req.params.email;
+            const result = userbooking.find({ User: email });
+            const order = await result.toArray();
+            res.json(order);
         });
 
         // POST API Booking
